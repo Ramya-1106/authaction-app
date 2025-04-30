@@ -1,17 +1,13 @@
-// app/api/auth/[...nextauth]/route.ts
-
-import NextAuth, { NextAuthOptions } from "next-auth";
-import { JWT } from "next-auth/jwt";
-import { Account, Session, User } from "next-auth";
 import { AuthActionProvider } from "@/lib/auth/authactiont";
+import NextAuth from "next-auth";
 
-export const authOptions: NextAuthOptions = {
+const handler = NextAuth({
   providers: [AuthActionProvider()],
   session: {
-    strategy: "jwt"
+    strategy: "jwt",
   },
   callbacks: {
-    async jwt({ token, account, user }: { token: JWT; account?: Account | null; user?: User | null }) {
+    async jwt({ token, account, user }) {
       if (account) {
         token.accessToken = account.access_token;
         token.idToken = account.id_token;
@@ -21,8 +17,8 @@ export const authOptions: NextAuthOptions = {
       }
       return token;
     },
-    
-    async session({ session, token }: { session: Session; token: JWT }) {
+
+    async session({ session, token }) {
       session.accessToken = token.accessToken as string;
       session.idToken = token.idToken as string;
       if (token.user) {
@@ -32,9 +28,6 @@ export const authOptions: NextAuthOptions = {
     },
   },
   debug: true,
-};
-
-const handler = NextAuth(authOptions);
+});
 
 export { handler as GET, handler as POST };
-
