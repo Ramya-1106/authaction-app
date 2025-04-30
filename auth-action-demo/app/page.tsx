@@ -24,8 +24,8 @@ export default function Home() {
 
         {!session ? (
           <button
-            onClick={() => signIn("authOptions")}
-            className="px-6 py-3 bg-indigo-600 text-white font-semibold rounded-xl shadow hover:bg-indigo-700 transition"
+          onClick={() => signIn("authaction", { callbackUrl: "/" })}
+          className="px-6 py-3 bg-indigo-600 text-white font-semibold rounded-xl shadow hover:bg-indigo-700 transition"
           >
             Login
           </button>
