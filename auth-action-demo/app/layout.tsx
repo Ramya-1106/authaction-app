@@ -1,8 +1,10 @@
-// app/layout.tsx
-"use client";
-
-import { SessionProvider } from "next-auth/react";
 import "./globals.css";
+import SessionWrapper from "./sessionwrapper";
+
+export const metadata = {
+  title: "AuthAction App",
+  description: "Demo for custom Auth provider with Next.js",
+};
 
 export default function RootLayout({
   children,
@@ -10,8 +12,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <SessionProvider>
-      {children}
-    </SessionProvider>
+    <html lang="en">
+      <body>
+        <SessionWrapper>
+          {children}
+        </SessionWrapper>
+      </body>
+    </html>
   );
 }
